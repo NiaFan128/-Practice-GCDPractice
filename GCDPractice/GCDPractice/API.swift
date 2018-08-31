@@ -17,96 +17,119 @@ import Foundation
 
 class API {
     
-    func getNameAPI() {
+    typealias Name = (String?, Error?) -> Void
+    
+    func getNameAPI(completionHandler completion: @escaping Name) {
         
         guard let url = URL(string: "https://stations-98a59.firebaseio.com/name.json") else {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { data, response, error in
             
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return
-            }
-            
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+            DispatchQueue.main.async {
                 
-                let returnData = String(data: data, encoding: .utf8)
+                guard let data = data, error == nil else {
+                    return
+                }
                 
-                print(returnData ?? "")
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return
+                }
                 
+                if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+                    
+                    guard let returnData = String(data: data, encoding: .utf8) else {
+                        return
+                    }
+                    
+                    completion(returnData, nil)
+                    print(returnData)
+                    
+                }
             }
-            
-            }.resume()
+        })
+        
+        task.resume()
         
     }
     
-    func getAddressAPI() {
+    func getAddressAPI(completionHandler completion: @escaping Name) {
         
         guard let url = URL(string: "https://stations-98a59.firebaseio.com/address.json") else {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { data, response, error in
             
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return
-            }
-            
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+            DispatchQueue.main.async {
                 
-                let returnData = String(data: data, encoding: .utf8)
+                guard let data = data, error == nil else {
+                    return
+                }
                 
-                print(returnData ?? "")
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return
+                }
                 
+                if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+                    
+                    guard let returnData = String(data: data, encoding: .utf8) else {
+                        return
+                    }
+                    
+                    completion(returnData, nil)
+                    print(returnData)
+                    
+                }
             }
-            
-            }.resume()
+        })
+        
+        task.resume()
         
     }
-    
-    func getHeadAPI() {
+
+    func getHeadAPI(completionHandler completion: @escaping Name) {
         
         guard let url = URL(string: "https://stations-98a59.firebaseio.com/head.json") else {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { data, response, error in
             
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return
-            }
-            
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+            DispatchQueue.main.async {
+
+                guard let data = data, error == nil else {
+                    return
+                }
                 
-                let returnData = String(data: data, encoding: .utf8)
-                
-                print(returnData ?? "")
-                
-            }
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return
+                }
             
-            }.resume()
+                if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+                
+                    guard let returnData = String(data: data, encoding: .utf8) else {
+                        return
+                    }
+                
+                    completion(returnData, nil)
+                    print(returnData)
+                
+                }
+            }
+        })
+        
+        task.resume()
         
     }
     

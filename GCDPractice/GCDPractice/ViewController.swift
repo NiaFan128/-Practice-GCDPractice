@@ -13,17 +13,34 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var api: API = API()
+    var school: String = ""
+    var address: String = ""
+    var head: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-
-        api.getAddressAPI()
-        api.getHeadAPI()
-        api.getNameAPI()
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        api.getNameAPI { (data, error) in
+            print(data!)
+            self.school = data!
+            self.tableView.reloadData()
+        }
+        
+        api.getAddressAPI { (data, error) in
+            print(data!)
+            self.address = data!
+            self.tableView.reloadData()
+        }
+        
+        api.getHeadAPI { (data, error) in
+            print(data!)
+            self.head = data!
+            self.tableView.reloadData()
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +72,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
+            cell.schoolLabel.text = school
+            
             return cell
 
         } else if indexPath.row == 1 {
@@ -63,6 +82,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
+            cell.addressLabel.text = address
+            
             return cell
 
         } else {
@@ -70,6 +91,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "thirdCell", for: indexPath) as? ThirdCell else {
                 return UITableViewCell()
             }
+            
+            cell.nameLabel.text = head
             
             return cell
             
