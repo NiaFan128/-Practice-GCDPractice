@@ -9,6 +9,7 @@ In this practice, will demo two ways of showing data, including **Semaphore** an
 * **Main Queue** : To update the UI after completing work in a task on a concurrent Queue. It is important that we need to update the tableView after retrieving the data.
 
 
+
     DispatchQueue.main.async {
 
         guard let data = data, error == nil else {
@@ -31,6 +32,7 @@ In this practice, will demo two ways of showing data, including **Semaphore** an
         }
     }
 
+
 ## Semaphore ##
 
 1. Declare a constant `dispatchGroup` conform to `DispatchGroup()`
@@ -52,6 +54,7 @@ In this practice, will demo two ways of showing data, including **Semaphore** an
         }
 
     }
+
 
 
 3. Apply to each group to control the interval time.
@@ -91,6 +94,8 @@ In this practice, will demo two ways of showing data, including **Semaphore** an
 
     }
 
+
+
 3. To clarify each segement of showing data, organizing and dividing into three function `getGroupA()`, `getGroupB()`, `getGroupC()`.
 
 4. Insert the `dispatchGroup.enter()` at the beginning of `getGroup()` function and `self.dispatchGroup.leave()` after appending the data.
@@ -115,6 +120,7 @@ In this practice, will demo two ways of showing data, including **Semaphore** an
         print("reloading data")
         self.tableView.reloadData()
     }
+
 
 - - -
 
