@@ -8,13 +8,6 @@
 
 import Foundation
 
-//enum APIUrl: String {
-//
-//    case school = "https://stations-98a59.firebaseio.com/name.json"
-//    case address = "https://stations-98a59.firebaseio.com/address.json"
-//    case head = "https://stations-98a59.firebaseio.com/head.json"
-//}
-
 class API {
     
     typealias Name = (String?, Error?) -> Void
@@ -135,6 +128,13 @@ class API {
     
 }
 
+//enum APIUrl: String {
+//
+//    case school = "https://stations-98a59.firebaseio.com/name.json"
+//    case address = "https://stations-98a59.firebaseio.com/address.json"
+//    case head = "https://stations-98a59.firebaseio.com/head.json"
+//}
+//
 //class API {
 //
 //    func getAPI(api: APIUrl) {

@@ -25,24 +25,46 @@ class ViewController: UIViewController {
         
         api.getNameAPI { (data, error) in
             print(data!)
-            self.school = data!
-            self.tableView.reloadData()
+            
+            self.run(after: 2, completion: {
+                self.school = data!
+                self.tableView.reloadData()
+            })
+            
         }
         
         api.getAddressAPI { (data, error) in
             print(data!)
-            self.address = data!
-            self.tableView.reloadData()
+            
+            self.run(after: 4, completion: {
+                self.address = data!
+                self.tableView.reloadData()
+            })
+            
         }
         
         api.getHeadAPI { (data, error) in
             print(data!)
-            self.head = data!
-            self.tableView.reloadData()
+            
+            self.run(after: 6, completion: {
+                self.head = data!
+                self.tableView.reloadData()
+            })
+            
         }
 
     }
 
+    func run(after seconds: Int, completion: @escaping () -> Void) {
+        
+        let deadline = DispatchTime.now() + .seconds(seconds)
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            completion()
+        }
+        
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
