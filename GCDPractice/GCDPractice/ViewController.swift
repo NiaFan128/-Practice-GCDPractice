@@ -17,43 +17,7 @@ class ViewController: UIViewController {
     var address: String = ""
     var head: String = ""
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        
-        api.getNameAPI { (data, error) in
-            print(data!)
-            
-            self.run(after: 2, completion: {
-                self.school = data!
-                self.tableView.reloadData()
-            })
-            
-        }
-        
-        api.getAddressAPI { (data, error) in
-            print(data!)
-            
-            self.run(after: 4, completion: {
-                self.address = data!
-                self.tableView.reloadData()
-            })
-            
-        }
-        
-        api.getHeadAPI { (data, error) in
-            print(data!)
-            
-            self.run(after: 6, completion: {
-                self.head = data!
-                self.tableView.reloadData()
-            })
-            
-        }
-
-    }
+    let dispatchGroup = DispatchGroup()
 
     func run(after seconds: Int, completion: @escaping () -> Void) {
         
@@ -62,14 +26,79 @@ class ViewController: UIViewController {
             completion()
         }
         
+    }
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        getGroupA()
+        getGroupB()
+        getGroupC()
+        
+        dispatchGroup.notify(queue: .main) {
+            print("reloading data")
+            self.tableView.reloadData()
+        }
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func getGroupA() {
+        
+        dispatchGroup.enter()
+        
+        api.getNameAPI { (data, error) in
+            
+            print(data!)
+            
+            self.run(after: 2, completion: {
+            
+                self.school = data!
+                self.dispatchGroup.leave()
+                
+            })
+            
+        }
+        
     }
+        
+    func getGroupB() {
+        
+        dispatchGroup.enter()
+        
+        api.getAddressAPI { (data, error) in
+            
+            print(data!)
+            
+            self.run(after: 4, completion: {
+                self.address = data!
+                self.dispatchGroup.leave()
+            })
+                
+        }
+            
+    }
+        
+    func getGroupC() {
+        
+        dispatchGroup.enter()
 
+        api.getHeadAPI { (data, error) in
+            
+            print(data!)
+            
+            self.run(after: 6, completion: {
+                self.head = data!
+                self.dispatchGroup.leave()
+            })
+                
+        }
+            
+    }
+    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
